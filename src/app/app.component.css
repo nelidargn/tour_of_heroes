@@ -1,21 +1,115 @@
 /* AppComponent's private CSS styles */
-h1 {
-  margin-bottom: 0;
-}
-nav a {
-  padding: 1rem;
-  text-decoration: none;
-  margin-top: 10px;
-  display: inline-block;
-  background-color: #e8e8e8;
-  color: #3d3d3d;
-  border-radius: 4px;
+
+/* Design tokens for easy theming */
+:host {
+  --bg: #52909b;
+  --text: #1f2937;            /* slate-800 */
+  --muted: #eef2f7;           /* light surface for buttons */
+  --muted-text: #374151;      /* slate-700 */
+  --accent: #2563eb;          /* blue-600 */
+  --accent-contrast: #ffffff; /* text on accent */
+  --hover: #1d4ed8;           /* blue-700 */
+  --active: #111827;          /* near-black */
+  --ring: rgba(37, 99, 235, 0.35);
+  --radius: 10px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06), 0 1px 1px rgba(0,0,0,0.04);
+  --shadow-md: 0 6px 16px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.06);
 }
 
-nav a:hover {
-  color: white;
-  background-color: #42545C;
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --bg: #0b1020;
+    --text: #e5e7eb;
+    --muted: #121a2a;
+    --muted-text: #c7d2fe;
+    --accent: #60a5fa;
+    --accent-contrast: #0b1020;
+    --hover: #93c5fd;
+    --active: #e5e7eb;
+    --ring: rgba(96, 165, 250, 0.45);
+  }
 }
+
+body, :host {
+  background-color: #52909b;
+}
+/* Typography */
+h1 {
+  margin: 0 0 .5rem 0; /* improved breathing room */
+  font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+/* Nav layout polish */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  align-items: center;
+}
+
+/* Links as soft, tactile pills */
+nav a {
+  padding: 0.65rem 0.95rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--muted);
+  color: var(--muted-text);
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background-color .18s ease,
+    color .18s ease,
+    box-shadow .2s ease,
+    transform .05s ease,
+    border-color .2s ease;
+  will-change: transform;
+}
+
+/* Hover = lift + color shift */
+nav a:hover {
+  color: var(--accent-contrast);
+  background-color: var(--accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Focus-visible = accessible ring */
+nav a:focus-visible {
+  outline: none;
+  border-color: transparent;
+  box-shadow:
+    0 0 0 3px var(--bg),
+    0 0 0 6px var(--ring);
+}
+
+/* Active = subtle press */
 nav a:active {
-  background-color: black;
+  background-color: var(--active);
+  color: var(--accent-contrast);
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Current page state via aria */
+nav a[aria-current="page"],
+nav a.active {
+  background: linear-gradient(180deg, var(--accent), var(--hover));
+  color: var(--accent-contrast);
+  border-color: transparent;
+}
+
+/* Reduce motion for those who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  nav a {
+    transition: none;
+    transform: none;
+  }
 }

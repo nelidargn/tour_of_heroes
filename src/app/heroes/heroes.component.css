@@ -1,54 +1,135 @@
 /* HeroesComponent's private CSS styles */
-.heroes {
-  margin: 0 0 2em 0;
-  list-style-type: none;
-  padding: 0;
-  width: 15em;
+
+/* Theme tokens (scoped to this component) */
+:host {
+  --bg: #ffffff;
+  --text: #1f2937;            /* slate-800 */
+  --muted: #f3f4f6;           /* slate-100 */
+  --surface: #ffffff;         /* card bg */
+  --border: #e5e7eb;          /* slate-200 */
+  --accent: #2563eb;          /* blue-600 */
+  --accent-contrast: #ffffff; /* text on accent */
+  --hover: #1d4ed8;           /* blue-700 */
+  --ring: rgba(37, 99, 235, 0.35);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 8px 18px rgba(0,0,0,0.08);
+  --radius: 12px;
 }
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --bg: #0b1020;
+    --text: #e5e7eb;
+    --muted: #0f172a;         /* slate-900 */
+    --surface: #0f172a;
+    --border: #1f2937;
+    --accent: #60a5fa;        /* blue-400 */
+    --accent-contrast: #0b1020;
+    --hover: #93c5fd;
+    --ring: rgba(96, 165, 250, 0.45);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.35);
+    --shadow-md: 0 10px 22px rgba(0,0,0,0.45);
+  }
+}
+
+/* List container -> modern, breathable grid */
+.heroes {
+  margin: 0 0 2rem 0;
+  list-style: none;
+  padding: 0;
+  width: min(100%, 28rem);
+  display: grid;
+  gap: .6rem;
+}
+
+/* Each item — subtle motion + tap target */
 .heroes li {
   position: relative;
   cursor: pointer;
+  transition: transform .12s ease, filter .2s ease;
+  will-change: transform;
 }
 
 .heroes li:hover {
-  left: .1em;
+  transform: translateX(2px);
 }
 
+/* Card-like anchor filling the row */
 .heroes a {
-  color: #333;
-  text-decoration: none;
-  background-color: #EEE;
-  margin: .5em;
-  padding: .3em 0;
-  height: 1.6em;
-  border-radius: 4px;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
   width: 100%;
+  text-decoration: none;
+  color: var(--text);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .7rem .9rem;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background-color .18s ease,
+    color .18s ease,
+    box-shadow .2s ease,
+    border-color .2s ease,
+    transform .06s ease;
 }
 
+/* Hover = lift + tint */
 .heroes a:hover {
-  color: #2c3a41;
-  background-color: #e6e6e6;
+  background-color: color-mix(in oklab, var(--surface) 88%, var(--accent) 12%);
+  border-color: color-mix(in oklab, var(--border) 65%, var(--accent) 35%);
+  box-shadow: var(--shadow-md);
 }
 
+/* Active press */
 .heroes a:active {
-  background-color: #525252;
-  color: #fafafa;
+  background-color: color-mix(in oklab, var(--surface) 70%, var(--accent) 30%);
+  color: var(--accent-contrast);
+  transform: translateY(0);
 }
 
+/* Focus-visible ring for keyboard users */
+.heroes a:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--bg),
+    0 0 0 6px var(--ring);
+  border-color: transparent;
+}
+
+/* Selected/current state if used by router or logic */
+.heroes a[aria-current="page"],
+.heroes a.active,
+.heroes li.selected a {
+  background: linear-gradient(180deg, var(--accent), var(--hover));
+  color: var(--accent-contrast);
+  border-color: transparent;
+  box-shadow: var(--shadow-md);
+}
+
+/* Badge styling — compact pill aligned left */
 .heroes .badge {
-  display: inline-block;
-  font-size: small;
-  color: white;
-  padding: 0.8em 0.7em 0 0.7em;
-  background-color: #405061;
-  line-height: 1em;
-  position: relative;
-  left: -1px;
-  top: -4px;
-  height: 1.8em;
-  min-width: 16px;
-  text-align: right;
-  margin-right: .8em;
-  border-radius: 4px 0 0 4px;
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.1rem;
+  height: 1.8rem;
+  padding: 0 .6rem;
+  margin-right: .2rem;
+  font-size: .75rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent-contrast);
+  background-color: var(--accent);
+  border-radius: calc(var(--radius) - 2px);
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,0.15);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .heroes li,
+  .heroes a {
+    transition: none;
+    transform: none;
+  }
 }

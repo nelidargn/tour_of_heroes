@@ -1,50 +1,142 @@
 /* DashboardComponent's private CSS styles */
 
+/* Theme tokens (scoped) */
+:host {
+  --bg: #5d68a5;
+  --text: #0f172a;            /* slate-900 */
+  --muted: #475569;           /* slate-600 */
+  --surface: #ffffff;         /* card bg */
+  --border: #e5e7eb;          /* slate-200 */
+  --accent: #2563eb;          /* blue-600 */
+  --accent-contrast: #ffffff; /* text on accent */
+  --hover: #1d4ed8;           /* blue-700 */
+  --ring: rgba(37, 99, 235, 0.35);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.06);
+  --shadow-md: 0 8px 18px rgba(0,0,0,.08);
+  --radius: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --bg: #0b1020;
+    --text: #e5e7eb;
+    --muted: #94a3b8;
+    --surface: #0f172a;
+    --border: #1f2937;
+    --accent: #60a5fa;        /* blue-400 */
+    --accent-contrast: #0b1020;
+    --hover: #93c5fd;
+    --ring: rgba(96,165,250,.45);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.35);
+    --shadow-md: 0 10px 22px rgba(0,0,0,.45);
+  }
+}
+
+body, :host {
+  background-color: var(--bg);
+}
+/* Title */
 h2 {
   text-align: center;
+  color: var(--text);
+  font-weight: 800;
+  letter-spacing: -.01em;
+  margin: 0 0 1rem 0;
 }
 
+/* Menu container — tighter responsive layout */
 .heroes-menu {
   padding: 0;
-  margin: auto;
+  margin: 0 auto;
   max-width: 1000px;
 
-  /* flexbox */
+  /* modern flex with gaps */
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
   align-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch;
+  gap: .75rem;
 }
 
+/* Cards */
 a {
-  background-color: #3f525c;
-  border-radius: 2px;
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--surface) 92%, var(--accent) 8%), var(--surface));
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   padding: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   text-decoration: none;
-  display: inline-block;
-  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+
   width: 100%;
-  min-width: 70px;
+  min-width: 120px;
   margin: .5rem auto;
   box-sizing: border-box;
 
   /* flexbox */
   order: 0;
-  flex: 0 1 auto;
+  flex: 1 1 clamp(140px, 45%, 220px);
   align-self: auto;
+
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform .08s ease,
+    background-color .18s ease,
+    color .18s ease,
+    border-color .18s ease,
+    box-shadow .2s ease;
+  will-change: transform;
 }
 
 @media (min-width: 600px) {
   a {
-    width: 18%;
-    box-sizing: content-box;
+    width: auto;               /* use flex-basis instead */
+    box-sizing: border-box;
   }
 }
 
+/* Hover & active interactions */
 a:hover {
-  background-color: #000;
+  background-color: color-mix(in oklab, var(--surface) 82%, var(--accent) 18%);
+  border-color: color-mix(in oklab, var(--border) 55%, var(--accent) 45%);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+a:active {
+  transform: translateY(0);
+  background-color: color-mix(in oklab, var(--surface) 70%, var(--accent) 30%);
+  color: var(--accent-contrast);
+}
+
+/* Keyboard accessibility */
+a:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--bg),
+    0 0 0 6px var(--ring);
+  border-color: transparent;
+}
+
+/* Current/selected state (optional if routing adds .active or aria-current) */
+a[aria-current="page"],
+a.active {
+  background: linear-gradient(180deg, var(--accent), var(--hover));
+  color: var(--accent-contrast);
+  border-color: transparent;
+  box-shadow: var(--shadow-md);
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  a {
+    transition: none;
+    transform: none;
+  }
 }

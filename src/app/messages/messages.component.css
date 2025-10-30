@@ -1,0 +1,147 @@
+/* MessagesComponent's private CSS styles (scoped) */
+
+/* Theme tokens */
+:host {
+  --bg: #ffffff;
+  --text: #0f172a;            /* slate-900 */
+  --muted: #64748b;           /* slate-500 */
+  --surface: #ffffff;         /* panel bg */
+  --chip: #f8fafc;            /* item bg */
+  --border: #e5e7eb;          /* slate-200 */
+  --accent: #2563eb;          /* blue-600 */
+  --accent-contrast: #ffffff; /* text on accent */
+  --hover: #1d4ed8;           /* blue-700 */
+  --ring: rgba(37, 99, 235, 0.35);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.06);
+  --shadow-md: 0 8px 18px rgba(0,0,0,.08);
+  --radius: 14px;
+  --radius-sm: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --bg: #0b1020;
+    --text: #e5e7eb;
+    --muted: #9aa5b1;
+    --surface: #0f172a;
+    --chip: #0b1324;
+    --border: #1f2937;
+    --accent: #60a5fa;        /* blue-400 */
+    --accent-contrast: #0b1020;
+    --hover: #93c5fd;
+    --ring: rgba(96,165,250,.45);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.35);
+    --shadow-md: 0 10px 22px rgba(0,0,0,.45);
+  }
+}
+
+/* Panel container (the outer *ngIf div) */
+:host > div {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  max-width: 48rem;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-auto-rows: min-content;
+  gap: .75rem 1rem;
+}
+
+/* Title */
+:host > div h2 {
+  grid-column: 1 / -1;
+  margin: 0;
+  text-align: left;
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+
+/* Clear button */
+:host > div .clear {
+  justify-self: end;
+  align-self: start;
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--surface) 88%, var(--accent) 12%), var(--surface));
+  color: var(--text);
+  padding: .6rem .9rem;
+  border-radius: var(--radius-sm);
+  font-size: .95rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition:
+    transform .06s ease,
+    background-color .18s ease,
+    color .18s ease,
+    border-color .18s ease,
+    box-shadow .2s ease;
+}
+
+:host > div .clear:hover {
+  background-color: color-mix(in oklab, var(--surface) 80%, var(--accent) 20%);
+  border-color: color-mix(in oklab, var(--border) 55%, var(--accent) 45%);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+:host > div .clear:active {
+  background-color: color-mix(in oklab, var(--surface) 68%, var(--accent) 32%);
+  color: var(--accent-contrast);
+  transform: translateY(0);
+}
+
+:host > div .clear:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--bg),
+    0 0 0 6px var(--ring);
+  border-color: transparent;
+}
+
+/* Messages list — each message is a direct child div */
+:host > div > div {
+  grid-column: 1 / -1;
+  background: var(--chip);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: .6rem .8rem;
+  box-shadow: var(--shadow-sm);
+  line-height: 1.4;
+  transition: background-color .18s ease, border-color .18s ease, box-shadow .2s ease, transform .06s ease;
+}
+
+/* Subtle separation without heavy borders */
+:host > div > div + div {
+  margin-top: .25rem;
+}
+
+/* Hover affordance for readability when scanning */
+:host > div > div:hover {
+  background-color: color-mix(in oklab, var(--chip) 86%, var(--accent) 14%);
+  border-color: color-mix(in oklab, var(--border) 60%, var(--accent) 40%);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Long lists — keep panel tidy */
+@supports (max-height: 0cqh) {
+  :host > div {
+    max-height: 60cqh; /* container query friendly */
+    overflow: auto;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  :host > div .clear,
+  :host > div > div {
+    transition: none;
+    transform: none;
+  }
+}

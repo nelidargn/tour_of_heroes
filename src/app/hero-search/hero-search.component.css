@@ -1,47 +1,145 @@
 /* HeroSearch private styles */
 
+/* Theme tokens (scoped) */
+:host {
+  --bg: #ffffff;
+  --text: #111827;            /* slate-900 */
+  --muted: #6b7280;           /* slate-500 */
+  --surface: #ffffff;         /* card/input bg */
+  --border: #e5e7eb;          /* slate-200 */
+  --accent: #2563eb;          /* blue-600 */
+  --accent-contrast: #ffffff; /* text on accent */
+  --hover: #1d4ed8;           /* blue-700 */
+  --ring: rgba(37, 99, 235, 0.35);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 8px 18px rgba(0,0,0,0.08);
+  --radius: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --bg: #0b1020;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --surface: #0f172a;       /* slate-900 */
+    --border: #1f2937;
+    --accent: #60a5fa;        /* blue-400 */
+    --accent-contrast: #0b1020;
+    --hover: #93c5fd;
+    --ring: rgba(96, 165, 250, 0.45);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.35);
+    --shadow-md: 0 10px 22px rgba(0,0,0,0.45);
+  }
+}
+
+/* Label — cleaner rhythm */
 label {
   display: block;
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-top: 1rem;
-  margin-bottom: .5rem;
-
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  margin: 0 0 .5rem 0;
 }
+
+/* Input — modern field with ring focus */
 input {
-  padding: .5rem;
+  display: block;
   width: 100%;
   max-width: 600px;
+  padding: .7rem .9rem;
   box-sizing: border-box;
-  display: block;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm) inset 0 0 0 rgba(0,0,0,0);
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background-color .2s ease;
+}
+
+input::placeholder {
+  color: var(--muted);
+  opacity: .9;
 }
 
 input:focus {
-  outline: #336699 auto 1px;
+  outline: none;
+  border-color: transparent;
+  box-shadow:
+    0 0 0 3px var(--bg),
+    0 0 0 6px var(--ring);
+}
+
+/* Results list — tidy and card-like */
+ul.search-result {
+  margin-top: .6rem;
+  padding-left: 0;
 }
 
 li {
-  list-style-type: none;
+  list-style: none;
 }
+
+/* Each result row as a card-link */
 .search-result li a {
-  border-bottom: 1px solid gray;
-  border-left: 1px solid gray;
-  border-right: 1px solid gray;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
   width: 100%;
   max-width: 600px;
-  padding: .5rem;
+  padding: .65rem .9rem;
   box-sizing: border-box;
   text-decoration: none;
-  color: black;
+  color: var(--text);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition:
+    background-color .18s ease,
+    color .18s ease,
+    box-shadow .2s ease,
+    border-color .2s ease,
+    transform .06s ease;
+  will-change: transform;
 }
 
+/* Hover = lift + subtle tint */
 .search-result li a:hover {
-  background-color: #435A60;
-  color: white;
+  background-color: color-mix(in oklab, var(--surface) 88%, var(--accent) 12%);
+  border-color: color-mix(in oklab, var(--border) 65%, var(--accent) 35%);
+  color: var(--text);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
-ul.search-result {
-  margin-top: 0;
-  padding-left: 0;
+/* Active press */
+.search-result li a:active {
+  background-color: color-mix(in oklab, var(--surface) 70%, var(--accent) 30%);
+  color: var(--accent-contrast);
+  transform: translateY(0);
+}
+
+/* Keyboard focus */
+.search-result li a:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--bg),
+    0 0 0 6px var(--ring);
+  border-color: transparent;
+}
+
+/* Empty-state helper (optional: if list is empty, show nothing but keep spacing minimal) */
+.search-result:empty {
+  margin: 0;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .search-result li a {
+    transition: none;
+    transform: none;
+  }
 }
