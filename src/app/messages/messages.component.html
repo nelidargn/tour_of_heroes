@@ -1,8 +1,52 @@
-<div *ngIf="messageService.messages.length">
+<!-- Tailwind-only version: HTML + styles merged into one template -->
+<div *ngIf="messageService.messages.length" class="py-6">
+  <div
+    class="
+      mx-auto grid max-w-[48rem] grid-cols-[1fr_auto] gap-x-4 gap-y-3
+      rounded-[14px] border border-slate-200 bg-white p-4 shadow-sm
+      dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200
+      scroll-smooth max-h-[60vh] overflow-auto
+    "
+  >
+    <!-- Title -->
+    <h2 class="col-span-2 m-0 text-left font-extrabold tracking-tight text-slate-900 dark:text-slate-200">
+      Messages
+    </h2>
 
-  <h2>Messages</h2>
-  <button type="button" class="clear"
-          (click)="messageService.clear()">Clear messages</button>
-  <div *ngFor='let message of messageService.messages'> {{message}} </div>
+    <!-- Clear button -->
+    <button
+      type="button"
+      class="
+        justify-self-end self-start inline-flex items-center rounded-[10px]
+        border border-slate-200 bg-gradient-to-b from-white to-white/90 px-4 py-2 text-[0.95rem] font-semibold text-slate-900 shadow-sm
+        transition [transition-property:transform,background-color,color,border-color,box-shadow]
+        duration-200 ease-out
+        hover:-translate-y-0.5 hover:shadow-xl hover:border-blue-500/60 dark:hover:border-blue-400/60
+        hover:from-blue-50 hover:to-white dark:from-slate-900 dark:to-slate-900 dark:hover:from-slate-800 dark:hover:to-slate-900
+        active:translate-y-0 active:bg-blue-600 active:text-white
+        focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent
+        motion-reduce:transition-none motion-reduce:transform-none
+      "
+      (click)="messageService.clear()"
+    >
+      Clear messages
+    </button>
 
+    <!-- Messages list -->
+    <div class="col-span-2 space-y-1">
+      <div
+        *ngFor="let message of messageService.messages"
+        class="
+          rounded-[10px] border border-slate-200 bg-slate-50 px-3 py-2 text-slate-900 shadow-sm
+          transition [transition-property:background-color,border-color,box-shadow,transform]
+          duration-200 ease-out
+          hover:-translate-y-0.5 hover:shadow-xl hover:border-blue-500/60 hover:bg-blue-50
+          dark:border-slate-700 dark:bg-[#0b1324] dark:text-slate-200 dark:hover:bg-slate-800
+          motion-reduce:transition-none motion-reduce:transform-none
+        "
+      >
+        {{ message }}
+      </div>
+    </div>
+  </div>
 </div>

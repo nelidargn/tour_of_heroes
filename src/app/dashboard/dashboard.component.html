@@ -1,9 +1,39 @@
-<h2>Top Heroes</h2>
-<div class="heroes-menu">
-  <a *ngFor="let hero of heroes"
-      routerLink="/detail/{{hero.id}}">
-      {{hero.name}}
-  </a>
-</div>
+<!-- Tailwind-only version: HTML + styles merged into one template -->
+<!-- Wrapper sets background; dark mode supported with the `dark` class on <html> or a parent -->
+<section class="min-h-screen bg-[#5d68a5] dark:bg-[#0b1020] py-8">
+  <h2 class="mx-auto mb-4 text-center font-extrabold tracking-tight text-slate-900 dark:text-slate-200">
+    Top Heroes
+  </h2>
 
-<app-hero-searchComponent></app-hero-searchComponent>
+  <!-- Menu container: tight, responsive flex layout -->
+  <div class="mx-auto max-w-[1000px] p-0 flex flex-wrap justify-center content-start items-stretch gap-3">
+    <a
+      *ngFor="let hero of heroes"
+      routerLink="/detail/{{hero.id}}"
+      routerLinkActive="active"
+      class="
+        group inline-flex items-center justify-center text-center no-underline
+        w-full sm:w-auto min-w-[120px]
+        flex-1 basis-[clamp(140px,45%,220px)]
+        rounded-[14px] border border-slate-200 dark:border-slate-700
+        bg-gradient-to-b from-white to-white/95 dark:from-slate-900 dark:to-slate-900
+        text-[1.05rem] text-slate-900 dark:text-slate-200
+        p-4 shadow-sm transition
+        [transition-property:transform,background-color,color,border-color,box-shadow]
+        duration-200 ease-out will-change-transform
+        hover:-translate-y-0.5 hover:shadow-xl
+        hover:border-blue-500/60 dark:hover:border-blue-400/60
+        hover:from-blue-50 hover:to-white dark:hover:from-slate-800 dark:hover:to-slate-900
+        active:translate-y-0 active:bg-blue-600 active:text-white
+        focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent
+        motion-reduce:transition-none motion-reduce:transform-none
+        aria-[current=page]:bg-gradient-to-b aria-[current=page]:from-blue-600 aria-[current=page]:to-blue-700 aria-[current=page]:text-white aria-[current=page]:border-transparent aria-[current=page]:shadow-xl
+        [&.active]:bg-gradient-to-b [&.active]:from-blue-600 [&.active]:to-blue-700 [&.active]:text-white [&.active]:border-transparent [&.active]:shadow-xl
+      "
+      >
+      {{ hero.name }}
+    </a>
+  </div>
+
+  <app-hero-searchComponent></app-hero-searchComponent>
+</section>

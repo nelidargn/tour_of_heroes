@@ -1,10 +1,76 @@
-<div *ngIf="hero">
-  <h2>{{hero.name | uppercase}} Details</h2>
-  <div><span>id: </span>{{hero.id}}</div>
-  <div>
-    <label for="hero-name">Hero name: </label>
-    <input id="hero-name" [(ngModel)]="hero.name" placeholder="Hero name"/>
+<!-- Tailwind-only version: HTML + styles merged into one template -->
+<div *ngIf="hero" class="min-h-screen bg-white dark:bg-[#0b1020] py-8">
+  <div class="mx-auto max-w-3xl px-4">
+    <h2 class="mb-2 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200">
+      {{ hero.name | uppercase }} Details
+    </h2>
+
+    <div class="mb-6 text-slate-900 dark:text-slate-200">
+      <span class="font-semibold text-slate-500 dark:text-slate-400">id:</span>
+      <span class="ml-1">{{ hero.id }}</span>
+    </div>
+
+    <div class="mb-6">
+      <label for="hero-name" class="mb-1.5 inline-block font-bold text-slate-500 dark:text-slate-400">Hero name:</label>
+      <input
+        id="hero-name"
+        [(ngModel)]="hero.name"
+        placeholder="Hero name"
+        class="
+          w-full max-w-[36rem]
+          rounded-[12px] border border-slate-200 dark:border-slate-700
+          bg-white dark:bg-slate-900
+          px-4 py-[0.7rem] text-base text-slate-900 dark:text-slate-200
+          shadow-sm
+          placeholder:text-slate-500 dark:placeholder:text-slate-400/90
+          transition [transition-property:border-color,box-shadow,background-color]
+          duration-200 ease-out box-border
+          focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent
+          motion-reduce:transition-none
+        "
+      />
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+      <button
+        type="button"
+        (click)="goBack()"
+        class="
+          inline-flex items-center gap-2 rounded-[12px] border border-slate-200 dark:border-slate-700
+          bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-200
+          px-5 py-3 text-base font-semibold shadow-sm select-none cursor-pointer
+          transition [transition-property:transform,background-color,color,border-color,box-shadow]
+          duration-200 ease-out
+          hover:-translate-y-0.5 hover:shadow-xl hover:border-blue-500/60 dark:hover:border-blue-400/60
+          hover:bg-blue-50 dark:hover:bg-slate-800
+          active:translate-y-0 active:bg-blue-600 active:text-white
+          focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent
+          disabled:bg-white disabled:text-slate-400 disabled:border-slate-200 dark:disabled:bg-slate-900 dark:disabled:text-slate-500 dark:disabled:border-slate-700 disabled:opacity-55 disabled:cursor-not-allowed disabled:shadow-none disabled:transform-none
+          motion-reduce:transition-none motion-reduce:transform-none
+        "
+      >
+        go back
+      </button>
+
+      <button
+        type="button"
+        (click)="save()"
+        class="
+          inline-flex items-center gap-2 rounded-[12px] border border-slate-200 dark:border-slate-700
+          bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-200
+          px-5 py-3 text-base font-semibold shadow-sm select-none cursor-pointer
+          transition [transition-property:transform,background-color,color,border-color,box-shadow]
+          duration-200 ease-out
+          hover:-translate-y-0.5 hover:shadow-xl hover:border-blue-500/60 dark:hover:border-blue-400/60
+          hover:bg-blue-50 dark:hover:bg-slate-800
+          active:translate-y-0 active:bg-blue-600 active:text-white
+          focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent
+          disabled:bg-white disabled:text-slate-400 disabled:border-slate-200 dark:disabled:bg-slate-900 dark:disabled:text-slate-500 dark:disabled:border-slate-700 disabled:opacity-55 disabled:cursor-not-allowed disabled:shadow-none disabled:transform-none
+          motion-reduce:transition-none motion-reduce:transform-none
+        "
+      >
+        save
+      </button>
+    </div>
   </div>
-  <button type="button" (click)="goBack()">go back</button>
-  <button type="button" (click)="save()">save</button>
 </div>
